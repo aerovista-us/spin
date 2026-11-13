@@ -42,6 +42,16 @@ a network connection. You can also serve the folder: `python3 -m http.server 800
 | `wild125` | Wild x125! (default) | Gold coins, purple/blue panels, like the reference cabinet |
 | `cyber` | Cyber Surge | Neon wireframe icons on a synthwave grid, wilds up to x100 |
 | `fruits` | Lucky 7s | Classic cherries, bells, BARs and 7s, wilds up to x77 |
+| `aerovista` | AeroVista Skybound | Teal, silver and gold aviation cabinet; aircraft, drones and mountain horizons; wilds up to x125 |
+| `echoverse` | EchoVerse Encore | Velvet purple and amber studio cabinet; vinyl, headphones and mixtapes; wilds up to x100 |
+
+Choose **Menu → Games** or press **4** for AeroVista Skybound and **5** for EchoVerse Encore. The selected game, credits and each game's progressive meters persist locally. AeroVista uses the existing Wild x125 payout configuration; EchoVerse uses the existing Cyber Surge configuration. The new themes add no network dependencies.
+
+## Branded cabinets
+
+| AeroVista Skybound | EchoVerse Encore |
+|---|---|
+| ![AeroVista Skybound cabinet](screenshots/16-aerovista-1280x800.png) | ![EchoVerse Encore cabinet](screenshots/16-echoverse-1280x800.png) |
 
 ## Adding a new game
 1. Copy `games/fruits.js` (or any game) to `games/mygame.js` and change the `id`.
