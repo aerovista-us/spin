@@ -1,0 +1,10 @@
+# Local files and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.DS_Store
+Thumbs.db
+node_modules/
+*.log

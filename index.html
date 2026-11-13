@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Triple Curve Slot Cabinet — Play Money</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2245%22 fill=%22%23ffc61a%22 stroke=%22%23a06000%22 stroke-width=%228%22/%3E%3Ctext x=%2250%22 y=%2268%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22%23a06000%22 font-family=%22sans-serif%22 font-weight=%22bold%22%3E$%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/cabinet.css">
+</head>
+<body>
+<div id="bg">
+  <div class="bg-tint"></div>
+  <div class="far-machines"></div>
+  <div class="bokeh-layer"></div>
+  <div class="floor"></div>
+</div>
+
+<div id="stage" aria-label="Slot machine cabinet">
+  <div class="cabinet">
+    <div class="toppers"></div>
+    <div class="cab-body">
+      <div class="side-neon left"></div><div class="side-neon right"></div>
+      <div class="screens"></div>
+      <div id="menu" class="menu hidden" role="dialog" aria-label="Game menu"></div>
+    </div>
+    <div class="deck">
+      <div class="deck-trim top"></div>
+      <div class="deck-panel">
+        <div class="deck-row displays">
+          <div class="lcd"><span class="lcd-lbl">CREDIT</span><span class="lcd-val" id="dCredit">$0.00</span></div>
+          <div class="lcd"><span class="lcd-lbl">BET</span><span class="lcd-val" id="dBet">$0.00</span></div>
+          <div class="lcd win"><span class="lcd-lbl">WIN</span><span class="lcd-val" id="dWin">$0.00</span></div>
+          <div class="lcd small"><span class="lcd-lbl">LINES</span><span class="lcd-val">20</span></div>
+        </div>
+        <div class="deck-row buttons">
+          <button class="btn b-menu" id="bMenu" title="Menu (M)"><span>MENU</span></button>
+          <button class="btn b-sound" id="bSound" title="Sound on/off (S)"><span>SOUND</span><i id="soundState">ON</i></button>
+          <button class="btn b-auto" id="bAuto" title="Autoplay (A)"><span>AUTO</span></button>
+          <button class="btn b-bet" id="bBetDown" title="Bet down (−)"><span>BET −</span></button>
+          <button class="btn b-bet" id="bBetUp" title="Bet up (+)"><span>BET +</span></button>
+          <button class="btn b-max" id="bMax" title="Max bet + spin"><span>MAX BET</span></button>
+          <button class="btn-spin" id="bSpin" title="Spin (Space)"><span id="spinLabel">SPIN</span></button>
+        </div>
+      </div>
+      <div class="deck-trim bottom"></div>
+    </div>
+    <div class="cab-base">
+      <div class="base-neon"></div>
+      <div class="plaque">PLAY MONEY ONLY &middot; FOR ENTERTAINMENT &middot; NO REAL-MONEY WAGERING</div>
+    </div>
+  </div>
+</div>
+
+<canvas id="fx"></canvas>
+
+<script src="js/art.js"></script>
+<script src="js/engine.js"></script>
+<script src="games/registry.js"></script>
+<script src="games/wild125.js"></script>
+<script src="games/cyber.js"></script>
+<script src="games/fruits.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/fx.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
