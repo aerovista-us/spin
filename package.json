@@ -1,0 +1,12 @@
+{
+  "name": "aerovista-spin",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Offline slot cabinet; development dependencies are for browser regression checks only.",
+  "scripts": {
+    "test": "node tests/mobile.browser.cjs"
+  },
+  "devDependencies": {
+    "puppeteer": "25.12.0"
+  }
+}

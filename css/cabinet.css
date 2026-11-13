@@ -2,6 +2,9 @@
 @font-face { font-family: 'Orbitron'; src: url('../fonts/Orbitron-VariableFont_wght.ttf') format('truetype'); font-weight: 400 900; font-display: swap; }
 @font-face { font-family: 'Luckiest Guy'; src: url('../fonts/LuckiestGuy-Regular.ttf') format('truetype'); font-display: swap; }
 
+@font-face { font-family: 'Montserrat'; src: url('../fonts/Montserrat-Variable.ttf') format('truetype'); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: 'Inter'; src: url('../fonts/Inter-Variable.ttf') format('truetype'); font-weight: 100 900; font-display: swap; }
+
 :root { --lcd: 'Orbitron', 'DejaVu Sans Mono', monospace; }
 * { box-sizing: border-box; }
 html, body { margin: 0; height: 100%; overflow: hidden; background: #030108; color: #fff; font-family: 'Anton', Impact, sans-serif; user-select: none; -webkit-user-select: none; }
@@ -163,7 +166,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .tab, .m-close { white-space: nowrap; padding: 14px 24px; border-radius: 12px; border: 2px solid rgba(255,255,255,.2); background: rgba(255,255,255,.06); font-size: 28px; letter-spacing: 1px; color: #ddd; }
 .tab.active { border-color: var(--accent); color: #fff; background: linear-gradient(180deg, var(--panel-a), var(--panel-b)); box-shadow: 0 0 14px var(--glow); }
 .m-close { background: linear-gradient(180deg, #ff3040, #700); border-color: #ffb0b0; color: #fff; }
-.menu-body { flex: 1; overflow-y: auto; margin-top: 22px; padding-right: 8px; font-family: system-ui, 'Noto Sans', sans-serif; }
+.menu-body { flex: 1; overflow-y: auto; margin-top: 22px; padding-right: 8px; font-family: var(--body-font, system-ui), sans-serif; }
 .menu-body::-webkit-scrollbar { width: 10px; } .menu-body::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 5px; }
 .menu-note { font-size: 24px; color: #bbb; margin: 0 0 14px; }
 .game-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
@@ -174,7 +177,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .gc-art .sym { width: 112px; height: 112px; flex: 0 0 112px; }
 .gc-info { padding: 14px 18px 18px; background: rgba(0,0,0,.8); }
 .gc-name { font-size: 46px; line-height: 1.1; white-space: nowrap; }
-.gc-tag { font-family: system-ui, 'Noto Sans', sans-serif; font-size: 22px; line-height: 1.35; color: #ccc; margin-top: 8px; min-height: 90px; }
+.gc-tag { font-family: var(--body-font, system-ui), sans-serif; font-size: 22px; line-height: 1.35; color: #ccc; margin-top: 8px; min-height: 90px; }
 .gc-play { display: inline-block; margin-top: 14px; padding: 10px 22px; border-radius: 12px; font-size: 26px; letter-spacing: 1px; }
 .gc-badge { position: absolute; top: 12px; right: 12px; padding: 4px 12px; border-radius: 8px; font-size: 18px; background: #fff; color: #000; }
 .pt-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
@@ -282,7 +285,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .mobile-layout .cab-base { position: relative; inset: auto; width: 100%; height: auto; border-radius: 6px; box-shadow: none; }
 .mobile-layout .base-neon { display: none; }
 .mobile-layout .plaque { position: static; transform: none; white-space: normal; text-align: center; font-size: 7px; letter-spacing: .6px; padding: 5px 6px; border-width: 1px; }
-.mobile-layout .ov-btn { width: 320px; max-width: 100%; min-height: calc(44px / var(--art-scale)); font-size: calc(11px / var(--art-scale)); padding: 10px 0; }
+.mobile-layout .ov-btn { width: 320px; max-width: 100%; min-height: calc(48px / var(--art-scale)); font-size: calc(12px / var(--art-scale)); line-height: 1.2; white-space: normal; padding: 10px 0; }
 
 .mobile-layout .menu { position: fixed; left: calc(8px + env(safe-area-inset-left, 0px)); right: calc(8px + env(safe-area-inset-right, 0px)); top: calc(8px + env(safe-area-inset-top, 0px)); bottom: auto; width: auto; height: calc(var(--viewport-height, 100dvh) - 16px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)); z-index: 110; padding: 12px; border-width: 2px; border-radius: 16px; }
 .mobile-layout .menu-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; flex: none; }
@@ -340,3 +343,75 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .mobile-landscape .tabs { grid-row: 1; grid-column: 2; }
 .mobile-landscape .m-close { grid-column: 3; }
 .mobile-landscape .game-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+/* Stable mobile painting: keep animation inside the reels, away from the touch deck. */
+.mobile-layout #fx { z-index: 10; }
+.mobile-layout .deck, .mobile-layout .cab-base { z-index: 20; }
+.mobile-layout button { appearance: none; -webkit-appearance: none; }
+.mobile-layout .toppers, .mobile-layout .screens { perspective: none; }
+.mobile-layout .screen { transform: none; transform-style: flat; }
+.mobile-layout .scr-clip { clip-path: none !important; border-radius: 20px; }
+.mobile-layout .scr-overlay { backdrop-filter: none; -webkit-backdrop-filter: none; }
+.mobile-layout .scr-glare, .mobile-layout .decor-layer, .mobile-layout .sign .shine, .mobile-layout .far-machines { display: none; }
+.mobile-layout .bokeh { animation: none; mix-blend-mode: normal; opacity: .16; }
+.mobile-layout .bulb, .mobile-layout .beacon .dome, .mobile-layout .beacon .dome::after,
+.mobile-layout .sign.big .txt, .mobile-layout .scr-neon .glow, .mobile-layout .side-neon,
+.mobile-layout .deck-trim, .mobile-layout .b-auto.on, .mobile-layout .mult.huge,
+.mobile-layout .cell.win .sym, .mobile-layout .cell.land .sym, .mobile-layout .lines polyline,
+.mobile-layout .screen.flash .scr-bg, .mobile-layout .screens.switching .scr-clip { animation: none; }
+.mobile-layout .bulb { box-shadow: none; opacity: .6; }
+.mobile-layout .strip.blur, .mobile-layout #stage svg [filter], .mobile-layout .lines polyline,
+.mobile-layout .sign .txt, .mobile-layout .h-title, .mobile-layout .h-big, .mobile-layout .ov-title { filter: none; }
+.mobile-layout .strip { will-change: auto; }
+.mobile-layout .reels.dim .cell:not(.win) .sym { filter: none; }
+.mobile-layout .deck-panel { box-shadow: inset 0 1px 0 rgba(255,255,255,.12); }
+.mobile-layout .btn { background: linear-gradient(180deg,var(--panel-a),var(--panel-b)); box-shadow: inset 0 1px 0 rgba(255,255,255,.12); text-shadow: none; }
+.mobile-layout .btn:active, .mobile-layout .btn.pressed, .mobile-layout .btn-spin:active, .mobile-layout .btn-spin.pressed { transform: none; border-color: var(--accent); box-shadow: inset 0 0 0 2px var(--accent); }
+.mobile-layout .btn:disabled { filter: none; opacity: .55; }
+.mobile-layout .b-auto.on { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.mobile-layout .btn-spin { background: var(--accent); color: #0F1115; text-shadow: none; box-shadow: inset 0 1px 0 rgba(255,255,255,.3); }
+.mobile-layout .btn-spin.stop { background: var(--accent2); box-shadow: inset 0 1px 0 rgba(255,255,255,.3); }
+.mobile-layout .lcd-val { font-family: 'Inter', system-ui, sans-serif; font-variant-numeric: tabular-nums; font-weight: 800; letter-spacing: 0; text-shadow: none; }
+.mobile-layout .lcd-lbl { font-family: var(--body-font, system-ui); text-shadow: none; }
+.mobile-layout .displays .lcd { background: #10141C; border-color: #394350; box-shadow: none; }
+.mobile-layout .lcd-val, .mobile-layout .lcd.win .lcd-val { color: #E8EDF2; text-shadow: none; }
+.mobile-layout .lcd.win.pop { animation: none; }
+.mobile-layout .deck-trim { background: var(--accent); box-shadow: none; opacity: .65; }
+
+/* Parent-brand surfaces follow the current guide, rather than the legacy neon palette. */
+html[data-game-theme="aerovista"] .far-machines, html[data-game-theme="aerovista"] .bokeh-layer,
+html[data-game-theme="aerovista"] .beacons, html[data-game-theme="aerovista"] .bulb,
+html[data-game-theme="aerovista"] .shine, html[data-game-theme="aerovista"] .decor-layer { display: none; }
+html[data-game-theme="aerovista"] .floor { background: linear-gradient(180deg,transparent,#0F1115); }
+html[data-game-theme="aerovista"] .sign { background: #161A20; border: 3px solid #414850; border-radius: 6px; box-shadow: none; }
+html[data-game-theme="aerovista"] .sign .txt, html[data-game-theme="aerovista"] .h-title,
+html[data-game-theme="aerovista"] .h-big { background: none; color: #E8EDF2; -webkit-text-stroke: 0; filter: none; animation: none; font-weight: 700; }
+html[data-game-theme="aerovista"] .h-jp .val, html[data-game-theme="aerovista"] .h-row b { color: #E8EDF2; text-shadow: none; }
+html[data-game-theme="aerovista"] .side-neon, html[data-game-theme="aerovista"] .base-neon,
+html[data-game-theme="aerovista"] .deck-trim { background: #00AEEF; box-shadow: none; animation: none; }
+html[data-game-theme="aerovista"] .scr-neon .glow { stroke: #697783; stroke-width: 3; filter: none; animation: none; }
+html[data-game-theme="aerovista"] .scr-glare { display: none; }
+html[data-game-theme="aerovista"] .deck-panel { background: #0F1115; box-shadow: inset 0 1px 0 #414850; }
+html[data-game-theme="aerovista"] .btn { background: linear-gradient(180deg,#252B33,#161A20); box-shadow: inset 0 1px 0 #414850; text-shadow: none; font-family: 'Montserrat',system-ui,sans-serif; font-weight: 700; }
+html[data-game-theme="aerovista"] .btn-spin { background: #00AEEF; color: #0F1115; text-shadow: none; box-shadow: none; animation: none; font-family: 'Orbitron',sans-serif; font-weight: 700; }
+html[data-game-theme="aerovista"] .menu-body { font-family: 'Montserrat',system-ui,sans-serif; }
+html[data-game-theme="aerovista"] .gc-name, html[data-game-theme="aerovista"] .scr-foot,
+html[data-game-theme="aerovista"] .h-lbl, html[data-game-theme="aerovista"] .h-sub { text-shadow: none; }
+html[data-game-theme="aerovista"] .cab-base { background: #0F1115; }
+html[data-game-theme="aerovista"] .plaque { background: #161A20; border-color: #414850; color: #C0C0C0; }
+html[data-game-theme="echoverse"] .sign .txt, html[data-game-theme="echoverse"] .h-title,
+html[data-game-theme="echoverse"] .h-big, html[data-game-theme="echoverse"] svg text { font-weight: 800; }
+html[data-game-theme="echoverse"] .side-neon, html[data-game-theme="echoverse"] .base-neon { background: #FF1493; box-shadow: 0 0 8px rgba(255,20,147,.3); animation: none; }
+html[data-game-theme="echoverse"] .scr-neon .glow { stroke: #FF1493; }
+html[data-game-theme="echoverse"] .menu-body { font-family: 'Inter',system-ui,sans-serif; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* Small-screen lettering remains solid and legible rather than outlined raster effects. */
+.mobile-layout .sign .txt, .mobile-layout .h-title, .mobile-layout .h-big { background: none; color: #F8F1FF; -webkit-text-stroke: 0; filter: none; }
+.mobile-layout .h-row b { font-family: 'Inter',system-ui,sans-serif; font-variant-numeric: tabular-nums; color: #F8F1FF; text-shadow: none; }
+.mobile-layout .h-row span { text-shadow: none; }
+.mobile-layout .btn { padding: 0 4px; font-family: var(--body-font, system-ui); font-size: 14px; font-weight: 700; letter-spacing: 0; }
+.mobile-layout .btn-spin { font-family: var(--title-font); font-weight: 800; }

@@ -13,7 +13,9 @@ a network connection. You can also serve the folder: `python3 -m http.server 800
 
 ## Mobile layout
 
-Phones use full-width cabinet artwork with a separate touch deck: controls are at least 44 pixels tall, with a larger Spin button. Landscape puts the controls beside the reels. Menus use readable text and scroll independently; the layout follows browser-bar height changes and allows for screen cutouts. Desktop keeps the full cabinet view.
+Phones use full-width cabinet artwork with a separate touch deck: controls are at least 44 pixels tall, with a larger Spin button. Landscape puts the controls beside the reels. Menus use readable text and scroll independently; the layout follows browser-bar height changes and allows for screen cutouts. Desktop keeps the full cabinet view. Mobile flattens 3D artwork, removes continuous lighting/filter effects, and keeps particles behind the touch deck. Browser resize events are coalesced once per frame.
+
+See [Brand and mobile implementation notes](docs/BRAND_AND_MOBILE.md) for source authority, brand boundaries, and validation limits.
 
 ## Controls
 | Action | Button | Key |
@@ -46,16 +48,16 @@ Phones use full-width cabinet artwork with a separate touch deck: controls are a
 | `wild125` | Wild x125! (default) | Gold coins, purple/blue panels, like the reference cabinet |
 | `cyber` | Cyber Surge | Neon wireframe icons on a synthwave grid, wilds up to x100 |
 | `fruits` | Lucky 7s | Classic cherries, bells, BARs and 7s, wilds up to x77 |
-| `aerovista` | AeroVista Skybound | Teal, silver and gold aviation cabinet; aircraft, drones and mountain horizons; wilds up to x125 |
-| `echoverse` | EchoVerse Encore | Velvet purple and amber studio cabinet; vinyl, headphones and mixtapes; wilds up to x100 |
+| `aerovista` | AeroVista Apex | Core black, signal blue and cyber silver; apex geometry and connected systems; wilds up to x125 |
+| `echoverse` | EchoVerse Encore | Echo pink and dark violet; record rings, waveforms and studio symbols; wilds up to x100 |
 
-Choose **Menu → Games** or press **4** for AeroVista Skybound and **5** for EchoVerse Encore. The selected game, credits and each game's progressive meters persist locally. AeroVista uses the existing Wild x125 payout configuration; EchoVerse uses the existing Cyber Surge configuration. The new themes add no network dependencies.
+Choose **Menu → Games** or press **4** for AeroVista Apex and **5** for EchoVerse Encore. The selected game, credits and each game's progressive meters persist locally. AeroVista uses the existing Wild x125 payout configuration; EchoVerse uses the existing Cyber Surge configuration. The new themes add no network dependencies.
 
 ## Branded cabinets
 
-| AeroVista Skybound | EchoVerse Encore |
+| AeroVista Apex | EchoVerse Encore |
 |---|---|
-| ![AeroVista Skybound cabinet](screenshots/16-aerovista-1280x800.png) | ![EchoVerse Encore cabinet](screenshots/16-echoverse-1280x800.png) |
+| ![AeroVista Apex cabinet](screenshots/16-aerovista-1280x800.png) | ![EchoVerse Encore cabinet](screenshots/16-echoverse-1280x800.png) |
 
 ## Adding a new game
 1. Copy `games/fruits.js` (or any game) to `games/mygame.js` and change the `id`.
@@ -101,8 +103,12 @@ Choose **Menu → Games** or press **4** for AeroVista Skybound and **5** for Ec
 - `js/audio.js`: WebAudio synth sound effects
 - `js/fx.js`: canvas coin and sparkle particles
 - `games/registry.js` plus one file per game
-- `fonts/`: Anton and Orbitron (SIL Open Font License), Luckiest Guy (Apache 2.0)
+- `fonts/`: Anton, Orbitron, Montserrat and Inter (SIL Open Font License), Luckiest Guy (Apache 2.0). Montserrat and Inter license texts are bundled alongside the files
 
 ## QA hook
 `SlotApp.forceNext([[...4 ids], ×6])` forces the next spin's grid, for example `'wild*125'` for a x125 wild.
 It's meant for testing and demos.
+
+## Repeatable browser regression checks
+
+The game itself still opens directly from `index.html`. For development checks, use Node 22+, run `npm ci`, then `npm test`. The browser suite uses Chromium with a 3x pixel ratio and 4x CPU throttling. It checks all five games, eight phone-sized viewports, menu bounds, touch targets, resize/rotation during spins, stop behavior, effect isolation from the controls, reduced motion, saved selection, and desktop switching. Physical-phone/Safari validation remains separate.

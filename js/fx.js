@@ -14,8 +14,11 @@
     c.fillStyle = 'rgba(255,255,255,.55)'; c.beginPath(); c.ellipse(S * 0.36, S * 0.3, S * 0.14, S * 0.07, -0.6, 0, Math.PI * 2); c.fill();
     return s;
   }
+  function mobile() { return matchMedia('(max-width: 760px), (max-width: 960px) and (max-height: 500px)').matches; }
+  function reduced() { return matchMedia('(prefers-reduced-motion: reduce)').matches; }
   function resize() {
-    dpr = Math.min(root.devicePixelRatio || 1, 2);
+    MAX = mobile() ? 90 : 420;
+    dpr = Math.min(root.devicePixelRatio || 1, mobile() ? 1.25 : 2);
     canvas.width = innerWidth * dpr; canvas.height = innerHeight * dpr;
   }
   function init() {
@@ -30,6 +33,8 @@
     parts.push({ k: 's', x: x, y: y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, size: 2 + Math.random() * 4, life: 0, max: 40 + Math.random() * 30, hue: 40 + Math.random() * 20 });
   }
   function burst(x, y, n, power) {
+    if (reduced()) return;
+    n = Math.min(n, mobile() ? 24 : 280);
     power = power || 1;
     var unit = Math.min(innerWidth, innerHeight) / 800;
     for (var i = 0; i < n; i++) {
@@ -40,9 +45,11 @@
     start();
   }
   function rain(rect, ms, rate) {
+    if (reduced()) return;
+    if (mobile()) { ms = Math.min(ms, 1800); rate = Math.min(rate || 3, 0.5); }
     rains.push({ rect: rect, until: performance.now() + ms, rate: rate || 3 }); start();
   }
-  function clear() { parts.length = 0; rains.length = 0; }
+  function clear() { parts.length = 0; rains.length = 0; if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height); }
   function start() { if (!running) { running = true; last = performance.now(); requestAnimationFrame(loop); } }
   function loop(now) {
     var k = Math.min(3, Math.max(0.2, (now - last) / 16.67)); last = now;

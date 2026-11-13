@@ -113,7 +113,7 @@
         <svg class="scr-neon" viewBox="-24 -24 418 978">
           <path d="${path}" fill="none" stroke="#020202" stroke-width="26"/>
           <path d="${path}" fill="none" stroke="#2a2a30" stroke-width="15"/>
-          <path class="glow" d="${path}" fill="none" stroke="#ff1530" stroke-width="7" filter="url(#f-neon)"/>
+          <path class="glow" d="${path}" fill="none" stroke="var(--accent, #ff1530)" stroke-width="7" filter="url(#f-neon)"/>
           <path d="${path}" fill="none" stroke="#ffd6da" stroke-width="2" opacity=".9"/></svg>`;
       wrap.appendChild(el);
       screens.push({ el, header: $('.scr-header', el), decor: $('.decor-layer', el), lines: $('.lines', el), foot: $('.scr-foot', el), overlay: $('.scr-overlay', el), reels: $('.reels', el) });
@@ -159,8 +159,9 @@
     state.gameId = game.id;
     if (!state.jackpots[game.id]) state.jackpots[game.id] = Object.assign({}, game.jackpots);
     const th = game.theme, st = $('#stage').style;
+    document.documentElement.dataset.gameTheme = game.id;
     const vars = { '--accent': th.accent, '--accent2': th.accent2, '--glow': th.glow, '--panel-a': th.panelA, '--panel-b': th.panelB, '--frame-a': th.frameA, '--frame-b': th.frameB,
-      '--topper-text': th.topperText, '--topper-stroke': th.topperStroke, '--screen-bg': th.screenBg, '--cell-bg': th.cellBg, '--cell-border': th.cellBorder, '--title-font': th.font };
+      '--topper-text': th.topperText, '--topper-stroke': th.topperStroke, '--screen-bg': th.screenBg, '--cell-bg': th.cellBg, '--cell-border': th.cellBorder, '--title-font': th.font, '--body-font': th.bodyFont || 'system-ui, sans-serif' };
     Object.keys(vars).forEach(k => { st.setProperty(k, vars[k]); document.documentElement.style.setProperty(k, vars[k]); });
     buildBackground(th);
     $$('.topper').forEach((t, i) => {
@@ -591,7 +592,7 @@
   /* ---------------- layout & input ---------------- */
   function fit() {
     const width = document.documentElement.clientWidth;
-    const height = window.visualViewport ? visualViewport.height : innerHeight;
+    const height = window.visualViewport && visualViewport.scale === 1 ? visualViewport.height : innerHeight;
     const mobile = matchMedia('(max-width: 760px), (max-width: 960px) and (max-height: 500px)').matches;
     const landscape = mobile && width > height;
     const root = document.documentElement, stage = $('#stage');
@@ -615,6 +616,11 @@
       stage.style.transform = `translate(-50%, -50%) scale(${s})`;
     }
   }
+  let fitFrame = 0;
+  function scheduleFit() {
+    if (fitFrame) return;
+    fitFrame = requestAnimationFrame(() => { fitFrame = 0; fit(); });
+  }
   function press(id) { const b = $(id); if (!b) return; b.classList.add('pressed'); setTimeout(() => b.classList.remove('pressed'), 120); }
   function bind() {
     $('#bSpin').addEventListener('click', () => spin());
@@ -637,11 +643,12 @@
       else if (e.key === 'a' || e.key === 'A') { if (!menuOpen) toggleAuto(); }
       else if (/^[1-9]$/.test(e.key) && !spinning && !presenting) { const g = G.list[+e.key - 1]; if (g && g.id !== game.id) { applyGame(g.id, true); if (menuOpen) renderMenu(); } }
     });
-    addEventListener('resize', fit);
-    if (window.visualViewport) visualViewport.addEventListener('resize', fit);
+    addEventListener('resize', scheduleFit);
+    if (window.visualViewport) visualViewport.addEventListener('resize', scheduleFit);
   }
 
   function init() {
+    fit();
     document.body.insertAdjacentHTML('afterbegin', SlotArt.DEFS);
     load();
     A.setMuted(state.muted);

@@ -1,50 +1,47 @@
-/* AeroVista Skybound — original flight and horizon artwork using the shared engine. */
+/* AeroVista Apex — parent-brand geometry. See docs/BRAND_AND_MOBILE.md. */
 (function () {
   'use strict';
   var A = SlotArt, svg = A.svg, t = A.text;
-  var ORB = "'Orbitron', 'Arial Black', sans-serif";
-  var wing = '<path d="M10 60 L45 43 L48 16 L54 16 L57 43 L90 60 L90 67 L57 59 L55 79 L65 85 L65 90 L50 86 L35 90 L35 85 L45 79 L43 59 L10 67 Z" fill="url(#g-silver)" stroke="#07566b" stroke-width="2.5" stroke-linejoin="round"/>';
-  function badge(inner, color) {
-    return svg('<g filter="url(#f-sd)"><circle cx="50" cy="50" r="43" fill="#062b40" stroke="' + color + '" stroke-width="3"/><circle cx="50" cy="50" r="36" fill="none" stroke="' + color + '" opacity=".28"/>' + inner + '</g>');
+  var ORB = "'Orbitron', sans-serif";
+  var apex = '<path d="M20 78 L50 22 L80 78 M36 62 H64" fill="none" stroke="#C0C0C0" stroke-width="8" stroke-linejoin="miter"/><path d="M24 78 L50 30" fill="none" stroke="#00AEEF" stroke-width="3"/>';
+  function badge(inner, accent) {
+    return svg('<rect x="7" y="7" width="86" height="86" rx="5" fill="#0F1115" stroke="' + (accent || '#414850') + '" stroke-width="2"/><path d="M15 28 V15 H28 M72 85 H85 V72" fill="none" stroke="#00AEEF" stroke-width="2"/>' + inner);
   }
   function symbol(id, name, weight, pays, art) {
-    return { id: id, name: name, weight: weight, pays: pays, svg: art };
+    return { id:id, name:name, weight:weight, pays:pays, svg:art };
   }
   SlotGames.register({
-    id: 'aerovista', name: 'AeroVista Skybound',
-    tagline: 'Where Vision Takes Flight. Silver wings, mountain horizons and golden x125 wilds.',
-    title: 'AEROVISTA',
-    toppers: [{ small: 'WHERE VISION', big: 'TAKES FLIGHT' }, { small: 'SKYBOUND', big: 'x125' }, { small: 'AEROVISTA', big: 'SOAR HIGH' }],
-    featureText: 'SKYBOUND WILDS UP TO x125',
-    jackpots: { grand: 1250, major: 125 },
-    theme: {
-      font: ORB, accent: '#79f2ed', accent2: '#ffd184', glow: '#36d9ee',
-      panelA: '#075c79', panelB: '#082944', frameA: '#64e5ef', frameB: '#f4cf8b',
-      topperText: 'linear-gradient(180deg,#ffffff 0%,#c5fcff 35%,#6de2ed 65%,#e5b968 100%)',
-      topperStroke: '#052238',
-      screenBg: 'radial-gradient(ellipse at 50% 10%,rgba(255,215,143,.32),transparent 38%),linear-gradient(165deg,transparent 48%,rgba(94,224,227,.12) 49%,transparent 50%),linear-gradient(180deg,#0a536b 0%,#08283d 55%,#031622 100%)',
-      cellBg: 'radial-gradient(circle at 50% 30%,#12516a 0%,#062b40 65%,#021925 100%)',
-      cellBorder: 'rgba(130,241,241,.48)',
-      lineColors: ['#79f2ed','#ffd184','#ffffff','#71b7ff','#a6ffbc'],
-      bokeh: ['#79f2ed','#ffd184','#71b7ff','#e7ffff'],
-      pageTint: 'radial-gradient(ellipse at 50% 25%,#093c51 0%,#03141f 65%,#01070c 100%)',
-      decor: badge(wing, '#79f2ed')
+    id:'aerovista', name:'AeroVista Apex',
+    tagline:'Seven Divisions. One Vision. Precision geometry, connected systems and x125 Core wilds.',
+    title:'AEROVISTA',
+    toppers:[{small:'AEROVISTA',big:'APEX'},{small:'CORE SYSTEM',big:'x125'},{small:'ONE VISION',big:'CONNECTED'}],
+    featureText:'CORE WILDS UP TO x125',
+    jackpots:{grand:1250,major:125},
+    theme:{
+      font:ORB, bodyFont:"'Montserrat', system-ui, sans-serif", accent:'#00AEEF',accent2:'#C0C0C0',glow:'#00AEEF',
+      panelA:'#20252C',panelB:'#0F1115',frameA:'#414850',frameB:'#C0C0C0',
+      topperText:'linear-gradient(180deg,#E8EDF2,#C0C0C0)',topperStroke:'#0F1115',
+      screenBg:'repeating-linear-gradient(90deg,transparent 0 91px,rgba(192,192,192,.045) 91px 92px),linear-gradient(180deg,#20252C,#0F1115)',
+      cellBg:'linear-gradient(145deg,#252B33,#0F1115)',cellBorder:'rgba(192,192,192,.22)',
+      lineColors:['#00AEEF','#C0C0C0','#E8EDF2','#748695','#536A7C'],
+      bokeh:['#0F1115','#20252C'],pageTint:'linear-gradient(180deg,#161A20,#0F1115)',
+      decor:badge(apex)
     },
-    symbols: [
-      { id: 'wild', name: 'SKYBOUND WILD', type: 'wild', weight: 2.6, pays: { 3:25, 4:100, 5:400, 6:1250 },
-        svg: svg('<g filter="url(#f-sd)"><path d="M8 27 L50 8 L92 27 L84 78 L50 94 L16 78 Z" fill="#073c52" stroke="url(#g-gold)" stroke-width="4"/><path d="M18 35 L39 43 L50 22 L61 43 L82 35 L68 58 H32 Z" fill="url(#g-silver)"/>' + t('WILD',{font:ORB,size:22,y:77,fill:'#fff2c8',stroke:'#073347',sw:2}) + '</g>') },
-      { id: 'horizon', name: 'HORIZON BONUS', type: 'scatter', weight: 1.9, pays: {},
-        svg: badge('<circle cx="50" cy="40" r="19" fill="url(#g-gold)"/><path d="M12 61 L33 37 L50 58 L69 32 L88 61 V73 H12 Z" fill="#17687c" stroke="#b7ffff" stroke-width="2"/>' + t('BONUS',{font:ORB,size:15,y:82,fill:'#fff2c8',stroke:'#073347',sw:1}), '#ffd184') },
-      symbol('jet','SILVER WINGS',4.2,{3:12,4:40,5:150,6:500},badge(wing,'#d3faff')),
-      symbol('drone','HORIZON DRONE',5,{3:10,4:30,5:100,6:300},badge('<g fill="none" stroke="#79f2ed" stroke-width="4"><path d="M30 30 L70 70 M70 30 L30 70"/><ellipse cx="27" cy="29" rx="15" ry="8"/><ellipse cx="73" cy="29" rx="15" ry="8"/><ellipse cx="27" cy="71" rx="15" ry="8"/><ellipse cx="73" cy="71" rx="15" ry="8"/></g><rect x="38" y="37" width="24" height="27" rx="7" fill="url(#g-silver)"/><circle cx="50" cy="54" r="6" fill="#083247" stroke="#ffd184" stroke-width="2"/>','#79f2ed')),
-      symbol('summit','SUMMIT PEAK',6,{3:8,4:25,5:75,6:200},badge('<path d="M12 78 L49 19 L88 78 Z" fill="url(#g-blue)" stroke="#b6faff" stroke-width="3"/><path d="M49 19 L32 46 L45 41 L53 50 L62 39 Z" fill="#efffff"/><path d="M49 50 L37 78 H70 Z" fill="#12526a"/>','#a5deff')),
-      symbol('compass','NORTH STAR',9,{3:4,4:12,5:35,6:100},badge('<circle cx="50" cy="50" r="28" fill="none" stroke="#ffd184" stroke-width="2"/><path d="M50 13 L59 42 L87 50 L59 58 L50 87 L41 58 L13 50 L41 42 Z" fill="url(#g-gold)" stroke="#664216" stroke-width="2"/><path d="M50 22 V50 H30 Z" fill="#ffffff"/>','#ffd184')),
-      symbol('lens','VISION LENS',10,{3:3,4:10,5:30,6:80},badge('<rect x="16" y="31" width="68" height="45" rx="9" fill="url(#g-silver)" stroke="#073347" stroke-width="2"/><path d="M29 31 L35 23 H57 L63 31" fill="#a3d8e8"/><circle cx="50" cy="53" r="21" fill="#041e32" stroke="#79f2ed" stroke-width="3"/><circle cx="50" cy="53" r="12" fill="url(#g-blue)"/><circle cx="46" cy="49" r="4" fill="#ffffff" opacity=".8"/>','#83e9df')),
-      symbol('feather','SKY FEATHER',11,{3:3,4:8,5:25,6:60},badge('<path d="M24 75 Q12 28 76 16 Q90 47 45 71 L28 78 Z" fill="url(#g-silver)" stroke="#79f2ed" stroke-width="2"/><path d="M20 85 L71 25 M38 64 L34 43 M49 51 L66 49 M57 40 L56 27" fill="none" stroke="#14718a" stroke-width="3" stroke-linecap="round"/>','#b6faff')),
-      symbol('cloud','CLOUD NINE',12,{3:2,4:6,5:20,6:50},badge('<path d="M25 70 C5 70 8 43 27 43 C25 14 66 13 68 41 C91 34 97 68 76 70 Z" fill="url(#g-silver)" stroke="#96f3ff" stroke-width="2"/><path d="M30 79 H70 M39 86 H61" stroke="#79f2ed" stroke-width="3" stroke-linecap="round"/>','#79f2ed'))
+    symbols:[
+      {id:'wild',name:'CORE WILD',type:'wild',weight:2.6,pays:{3:25,4:100,5:400,6:1250},
+        svg:badge('<g transform="translate(9 -8) scale(.82)">'+apex+'</g>'+t('WILD',{font:ORB,size:18,y:83,fill:'#E8EDF2',stroke:'#0F1115',sw:0}), '#00AEEF')},
+      {id:'core',name:'SYSTEM BONUS',type:'scatter',weight:1.9,pays:{},
+        svg:badge('<g fill="none" stroke="#697783" stroke-width="2"><path d="M50 46 L25 27 M50 46 L75 27 M50 46 V17 M50 46 L22 55 M50 46 L78 55"/><rect x="37" y="33" width="26" height="26"/></g><g fill="#C0C0C0"><rect x="19" y="21" width="12" height="12"/><rect x="69" y="21" width="12" height="12"/><rect x="44" y="11" width="12" height="12"/><rect x="16" y="49" width="12" height="12"/><rect x="72" y="49" width="12" height="12"/></g><rect x="44" y="40" width="12" height="12" fill="#00AEEF"/>'+t('BONUS',{font:ORB,size:15,y:82,fill:'#E8EDF2',stroke:'#0F1115',sw:0}), '#00AEEF')},
+      symbol('apex','APEX MARK',4.2,{3:12,4:40,5:150,6:500},badge(apex)),
+      symbol('nodes','CONNECTED NODES',5,{3:10,4:30,5:100,6:300},badge('<path d="M24 27 L72 26 L52 73 Z M24 27 L48 48 L72 26 M48 48 L52 73" fill="none" stroke="#697783" stroke-width="3"/><g fill="#C0C0C0"><rect x="17" y="20" width="14" height="14"/><rect x="65" y="19" width="14" height="14"/><rect x="45" y="66" width="14" height="14"/></g><rect x="41" y="41" width="14" height="14" fill="#00AEEF"/>')),
+      symbol('prism','PRECISION PRISM',6,{3:8,4:25,5:75,6:200},badge('<path d="M50 18 L78 34 V66 L50 82 L22 66 V34 Z M22 34 L50 50 L78 34 M50 50 V82" fill="none" stroke="#C0C0C0" stroke-width="3"/><path d="M50 18 V50 L22 66" fill="none" stroke="#00AEEF" stroke-width="2"/>')),
+      symbol('grid','SYSTEM GRID',9,{3:4,4:12,5:35,6:100},badge('<g fill="none" stroke="#697783" stroke-width="2"><path d="M23 23 H77 V77 H23 Z M41 23 V77 M59 23 V77 M23 41 H77 M23 59 H77"/></g><rect x="42" y="42" width="16" height="16" fill="#00AEEF"/><path d="M25 25 H39 V39 H25 Z" fill="#C0C0C0"/>')),
+      symbol('signal','SIGNAL TRACE',10,{3:3,4:10,5:30,6:80},badge('<path d="M17 64 H31 V38 H50 V64 H69 V38 H83" fill="none" stroke="#C0C0C0" stroke-width="4"/><g fill="#00AEEF"><rect x="13" y="60" width="8" height="8"/><rect x="79" y="34" width="8" height="8"/></g>')),
+      symbol('stack','MODULE STACK',11,{3:3,4:8,5:25,6:60},badge('<g fill="#20252C" stroke="#C0C0C0" stroke-width="2"><rect x="23" y="20" width="54" height="16"/><rect x="23" y="42" width="54" height="16"/><rect x="23" y="64" width="54" height="16"/></g><path d="M29 28 H39 M29 50 H39 M29 72 H39" stroke="#00AEEF" stroke-width="3"/>')),
+      symbol('frame','SPEC FRAME',12,{3:2,4:6,5:20,6:50},badge('<path d="M31 20 H20 V37 M69 20 H80 V37 M20 63 V80 H37 M80 63 V80 H63" fill="none" stroke="#C0C0C0" stroke-width="4"/><path d="M35 50 H65 M50 35 V65" stroke="#00AEEF" stroke-width="3"/><rect x="29" y="29" width="42" height="42" fill="none" stroke="#414850" stroke-width="1"/>'))
     ],
-    wildMultipliers: [{m:1,w:78},{m:2,w:15},{m:5,w:6},{m:125,w:0.35}],
-    scatterPays: {3:2,4:6,5:25,6:100},
-    bonusMultipliers: [{m:2,w:34},{m:3,w:26},{m:5,w:20},{m:10,w:12},{m:25,w:5},{m:50,w:2},{m:125,w:1}]
+    wildMultipliers:[{m:1,w:78},{m:2,w:15},{m:5,w:6},{m:125,w:0.35}],
+    scatterPays:{3:2,4:6,5:25,6:100},
+    bonusMultipliers:[{m:2,w:34},{m:3,w:26},{m:5,w:20},{m:10,w:12},{m:25,w:5},{m:50,w:2},{m:125,w:1}]
   });
 })();
