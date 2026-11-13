@@ -11,6 +11,10 @@ wagering and there are no purchases or outside links.
 Open `index.html` in a modern browser (Chrome, Edge, Firefox or Safari). You don't need a build step or
 a network connection. You can also serve the folder: `python3 -m http.server 8000` and open http://localhost:8000.
 
+## Mobile layout
+
+Phones use full-width cabinet artwork with a separate touch deck: controls are at least 44 pixels tall, with a larger Spin button. Landscape puts the controls beside the reels. Menus use readable text and scroll independently; the layout follows browser-bar height changes and allows for screen cutouts. Desktop keeps the full cabinet view.
+
 ## Controls
 | Action | Button | Key |
 |---|---|---|

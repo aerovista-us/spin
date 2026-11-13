@@ -571,7 +571,7 @@
         <p class="menu-note">Saved automatically in this browser (localStorage).</p>`;
     }
     m.innerHTML = `<div class="menu-head"><h2>GAME MENU</h2><div class="tabs">` + tabs.map(t => `<button class="tab${t[0] === menuTab ? ' active' : ''}" data-tab="${t[0]}">${t[1]}</button>`).join('') +
-      `<button class="m-close" data-act="close">✕ CLOSE</button></div></div><div class="menu-body">${body}</div>`;
+      `</div><button class="m-close" data-act="close">✕ CLOSE</button></div><div class="menu-body">${body}</div>`;
   }
   function onMenuClick(e) {
     const t = e.target.closest('[data-tab],[data-game],[data-act]');
@@ -590,8 +590,30 @@
 
   /* ---------------- layout & input ---------------- */
   function fit() {
-    const s = Math.min(innerWidth / 1300, innerHeight / 1790);
-    $('#stage').style.transform = `translate(-50%, -50%) scale(${s})`;
+    const width = document.documentElement.clientWidth;
+    const height = window.visualViewport ? visualViewport.height : innerHeight;
+    const mobile = matchMedia('(max-width: 760px), (max-width: 960px) and (max-height: 500px)').matches;
+    const landscape = mobile && width > height;
+    const root = document.documentElement, stage = $('#stage');
+    root.classList.toggle('mobile-layout', mobile);
+    root.classList.toggle('mobile-landscape', landscape);
+    root.style.setProperty('--viewport-height', height + 'px');
+    if (mobile) {
+      stage.style.transform = 'none';
+      const box = getComputedStyle($('.cabinet'));
+      const usableWidth = width - parseFloat(box.paddingLeft) - parseFloat(box.paddingRight);
+      const usableHeight = height - parseFloat(box.paddingTop) - parseFloat(box.paddingBottom);
+      const rail = Math.min(280, Math.max(220, usableWidth * 0.34));
+      const designHeight = landscape ? 994 : 1222;
+      const scale = landscape ? Math.min((usableWidth - rail - 12) / 1260, usableHeight / designHeight) : usableWidth / 1260;
+      root.style.setProperty('--art-scale', scale);
+      root.style.setProperty('--art-width', (1260 * scale) + 'px');
+      root.style.setProperty('--art-height', (designHeight * scale) + 'px');
+      root.style.setProperty('--rail-width', rail + 'px');
+    } else {
+      const s = Math.min(width / 1300, height / 1790);
+      stage.style.transform = `translate(-50%, -50%) scale(${s})`;
+    }
   }
   function press(id) { const b = $(id); if (!b) return; b.classList.add('pressed'); setTimeout(() => b.classList.remove('pressed'), 120); }
   function bind() {
@@ -616,6 +638,7 @@
       else if (/^[1-9]$/.test(e.key) && !spinning && !presenting) { const g = G.list[+e.key - 1]; if (g && g.id !== game.id) { applyGame(g.id, true); if (menuOpen) renderMenu(); } }
     });
     addEventListener('resize', fit);
+    if (window.visualViewport) visualViewport.addEventListener('resize', fit);
   }
 
   function init() {
