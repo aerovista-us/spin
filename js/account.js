@@ -6,8 +6,15 @@ panel.style.cssText='position:fixed;top:8px;right:8px;z-index:9999;background:#1
 const label=document.createElement('span');label.setAttribute('role','status');panel.append(label);
 const btn=(name,fn)=>{const b=document.createElement('button');b.textContent=name;b.style.marginLeft='6px';b.onclick=fn;panel.append(b);return b;};
 document.body.append(panel);
-const login=btn('Sign in',()=>av.auth.beginLogin({next:'/'}));
-const register=btn('Register',()=>av.auth.beginRegistration({next:'/'}));
+// Canonical adapter adds ?next=/; ACOS exact callback policy rejects query strings.
+// Preserve adapter-generated state and use the registered callback URL, with root as fixed next.
+const navigate=url=>{
+ const target=new URL(url);
+ target.searchParams.set('return_to',new URL('/auth/callback',location.origin).href);
+ location.assign(target.href);
+};
+const login=btn('Sign in',()=>av.auth.beginLogin({navigate}));
+const register=btn('Register',()=>av.auth.beginRegistration({navigate}));
 const logout=btn('Sign out',async()=>{try{await av.auth.logout();location.reload();}catch{label.textContent='Sign-out not confirmed. Retry.';}});
 logout.hidden=true;login.hidden=true;register.hidden=true;
 try{
