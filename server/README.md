@@ -1,0 +1,3 @@
+# SPIN authenticated service (staging candidate)
+
+Node 20+. Install restricted @aerovista-us/app-adapter 0.4.0 using authorized GitHub Packages access (never commit credentials). From server/: npm install, npm test, npm start. Set SPIN_ORIGIN to the registered HTTPS origin, SPIN_IDENTITY_SECRET to the dedicated service secret, and optionally IDENTITY_GATEWAY_ORIGIN and PORT. Reverse proxy the loopback port over HTTPS. The guest Pages site remains unchanged. Health reports process liveness only. No account preferences or registry reporting yet. Do not provision service secret or register callbacks until approved exact client and origin are verified. Run live handoff, replay, expiry, revocation, wrong audience, cross-account and CSRF acceptance before public release.
